@@ -96,7 +96,7 @@ export default function HomePage() {
                         alt="Sasha AI CRM Dashboard"
                         fill
                         className="object-cover"
-                        data-ai-hint="dashboard product"
+                        data-ai-hint="abstract technology"
                         />
                 </div>
             </div>
