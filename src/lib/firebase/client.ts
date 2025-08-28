@@ -2,13 +2,12 @@ import {initializeApp, getApp, getApps} from 'firebase/app';
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  projectId: "sasha-ai-crm",
-  appId: "1:1010023978468:web:19698e410269d1a85ba3f1",
-  storageBucket: "sasha-ai-crm.firebasestorage.app",
-  apiKey: "AIzaSyAlDw7wjxI6Jd1F-cbcdLWjn36fo7kYVb0",
-  authDomain: "sasha-ai-crm.firebaseapp.com",
-  measurementId: "",
-  messagingSenderId: "1010023978468"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
