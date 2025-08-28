@@ -21,16 +21,12 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, [user, loading, router]);
 
-  if (loading) {
+  if (loading || !user) {
     return (
         <div className="flex items-center justify-center h-screen">
             <Spinner size="large" />
         </div>
     )
-  }
-
-  if (!user) {
-      return null;
   }
 
   return (

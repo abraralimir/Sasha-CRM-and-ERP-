@@ -1,3 +1,4 @@
+
 import {initializeApp, getApp, getApps} from 'firebase/app';
 import { getFirestore } from "firebase/firestore";
 
@@ -11,7 +12,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
+const app = typeof window !== 'undefined' && !getApps().length ? initializeApp(firebaseConfig) : (getApps().length > 0 ? getApp() : undefined);
+const db = app ? getFirestore(app) : undefined;
 
 export {app, db};
