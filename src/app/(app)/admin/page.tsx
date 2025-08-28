@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { getDb } from "@/lib/firebase/client";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -19,6 +20,7 @@ export default function AdminPage() {
     const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
+        const db = getDb();
         const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
             const usersData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
             setUsers(usersData);

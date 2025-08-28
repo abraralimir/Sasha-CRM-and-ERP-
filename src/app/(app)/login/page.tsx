@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db, auth } from "@/lib/firebase/client";
+import { getDb, getAuth } from "@/lib/firebase/client";
 
 function LoginPageContent() {
     const router = useRouter();
@@ -36,6 +36,7 @@ function LoginPageContent() {
     const handleUserDocument = async (userCredential: UserCredential) => {
         const user = userCredential.user;
         if (user) {
+            const db = getDb();
             const userRef = doc(db, "users", user.uid);
             const userDoc = await getDoc(userRef);
             if (!userDoc.exists()) { // Only create doc if it doesn't exist
@@ -51,6 +52,7 @@ function LoginPageContent() {
     const handleGoogleLogin = async () => {
         setPageLoading(true);
         const provider = new GoogleAuthProvider();
+        const auth = getAuth();
         try {
             const result = await signInWithPopup(auth, provider);
             await handleUserDocument(result);
@@ -70,6 +72,7 @@ function LoginPageContent() {
     const handleEmailPasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setPageLoading(true);
+        const auth = getAuth();
         try {
             let result;
             if (isSignUp) {

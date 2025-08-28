@@ -17,7 +17,7 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   import { useAuth } from "@/lib/firebase/auth"
-  import { auth } from "@/lib/firebase/client";
+  import { getAuth } from "@/lib/firebase/client";
   import { signOut } from "firebase/auth";
   import Link from "next/link";
   
@@ -25,6 +25,7 @@ import {
     const { user } = useAuth();
 
     const handleLogout = () => {
+        const auth = getAuth();
         signOut(auth);
     }
 

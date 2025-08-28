@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase/client';
+import { getDb } from '@/lib/firebase/client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,7 @@ export default function EditContactPage() {
     useEffect(() => {
         if (id) {
             const fetchContact = async () => {
+                const db = getDb();
                 const docRef = doc(db, "contacts", id as string);
                 const docSnap = await getDoc(docRef);
 
@@ -55,6 +56,7 @@ export default function EditContactPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setSaving(true);
+        const db = getDb();
 
         try {
             const docRef = doc(db, "contacts", id as string);
@@ -143,4 +145,3 @@ export default function EditContactPage() {
         </div>
     );
 }
-

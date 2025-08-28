@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { getDb } from "@/lib/firebase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -37,6 +37,7 @@ export default function ContactsPage() {
     const { toast } = useToast();
 
     useEffect(() => {
+        const db = getDb();
         const unsubscribe = onSnapshot(collection(db, "contacts"), (snapshot) => {
             const contactsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Contact));
             setContacts(contactsData);
@@ -45,6 +46,7 @@ export default function ContactsPage() {
     }, []);
 
     const handleDelete = async (id: string) => {
+        const db = getDb();
         try {
             await deleteDoc(doc(db, "contacts", id));
             toast({
