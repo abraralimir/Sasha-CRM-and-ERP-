@@ -47,7 +47,7 @@ export function AuthGuard({children}: {children: React.ReactNode}) {
     }
 
     if (!user && pathname !== '/login') {
-        return null; // or a loading spinner, but router.replace should handle it
+        return null;
     }
 
     return <>{children}</>;

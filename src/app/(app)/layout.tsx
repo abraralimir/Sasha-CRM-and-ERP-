@@ -5,7 +5,6 @@ import { SidebarNav } from "@/components/sidebar-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserNav } from "@/components/user-nav";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { AuthGuard } from "@/lib/firebase/auth";
 
 export default function AppLayout({
   children,
@@ -29,9 +28,7 @@ export default function AppLayout({
           </div>
       </Sidebar>
       <SidebarInset>
-          <AuthGuard>
             {children}
-          </AuthGuard>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
+import Link from "next/link";
 
 export default function LoginPage() {
     const auth = getAuth();
@@ -121,8 +122,11 @@ export default function LoginPage() {
                         </Button>
                     </form>
                     <Separator className="my-6" />
-                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={pageLoading}>
+                    <Button variant="outline" className="w-full mb-2" onClick={handleGoogleLogin} disabled={pageLoading}>
                         {pageLoading ? <Spinner size="small" /> : 'Sign In with Google'}
+                    </Button>
+                    <Button variant="secondary" className="w-full" asChild>
+                        <Link href="/dashboard">Continue as Guest</Link>
                     </Button>
                 </CardContent>
                 <CardFooter className="justify-center">
