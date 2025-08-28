@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/lib/firebase/auth";
+import { AuthProvider, useAuth } from "@/lib/firebase/auth";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,7 @@ import Link from "next/link";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 
-export default function LoginPage() {
+function LoginPageContent() {
     const auth = getAuth();
     const router = useRouter();
     const { user, loading } = useAuth();
@@ -159,4 +159,12 @@ export default function LoginPage() {
             </Card>
         </div>
     );
+}
+
+export default function LoginPage() {
+    return (
+        <AuthProvider>
+            <LoginPageContent />
+        </AuthProvider>
+    )
 }
