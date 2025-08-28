@@ -2,17 +2,27 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/firebase/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
     const auth = getAuth();
     const router = useRouter();
     const { user, loading } = useAuth();
+    const { toast } = useToast();
+
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!loading && user) {
@@ -27,6 +37,33 @@ export default function LoginPage() {
             router.push('/dashboard');
         } catch (error) {
             console.error("Error signing in with Google: ", error);
+            setError("Failed to sign in with Google. Please try again.");
+            toast({
+                variant: "destructive",
+                title: "Login Error",
+                description: "Failed to sign in with Google. Please try again.",
+            });
+        }
+    };
+
+    const handleEmailPasswordSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError(null);
+        try {
+            if (isSignUp) {
+                await createUserWithEmailAndPassword(auth, email, password);
+            } else {
+                await signInWithEmailAndPassword(auth, email, password);
+            }
+            router.push('/dashboard');
+        } catch (error: any) {
+            console.error(`Error with ${isSignUp ? 'sign up' : 'sign in'}:`, error);
+            setError(error.message);
+            toast({
+                variant: "destructive",
+                title: isSignUp ? "Sign Up Error" : "Login Error",
+                description: error.message,
+            });
         }
     };
 
@@ -41,15 +78,50 @@ export default function LoginPage() {
                     <div className="flex justify-center mb-4">
                         <Logo />
                     </div>
-                    <CardTitle className="font-headline">Welcome Back</CardTitle>
-                    <CardDescription>Sign in to continue to Sasha AI CRM</CardDescription>
+                    <CardTitle className="font-headline">{isSignUp ? 'Create an Account' : 'Welcome Back'}</CardTitle>
+                    <CardDescription>{isSignUp ? 'Enter your email and password to sign up.' : 'Sign in to continue to Sasha AI CRM'}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Button className="w-full" onClick={handleGoogleLogin}>
+                    <form onSubmit={handleEmailPasswordSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input 
+                                id="email" 
+                                type="email" 
+                                placeholder="name@example.com" 
+                                required 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                             />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="password">Password</Label>
+                            <Input 
+                                id="password" 
+                                type="password" 
+                                required 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <Button type="submit" className="w-full">
+                            {isSignUp ? 'Sign Up' : 'Sign In'}
+                        </Button>
+                    </form>
+                    <Separator className="my-6" />
+                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
                         Sign In with Google
                     </Button>
                 </CardContent>
-            </Card>
+                <CardFooter className="justify-center">
+                     <Button variant="link" onClick={() => {
+                         setIsSignUp(!isSignUp);
+                         setError(null);
+                        }}>
+                        {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
+                    </Button>
+                </CardFooter>
+            </Card>>
         </div>
     );
 }
