@@ -110,14 +110,14 @@ export default function HomePage() {
                 </div>
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                     {crmFeatures.map((feature) => (
-                        <Card key={feature.title} className="text-center">
+                        <Card key={feature.title} className="text-center flex flex-col">
                             <CardHeader>
                                 <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
                                     {feature.icon}
                                 </div>
                                 <CardTitle className="font-headline">{feature.title}</CardTitle>
                             </CardHeader>
-                            <CardContent>
+                            <CardContent className="flex-grow">
                                 <p className="text-muted-foreground">{feature.description}</p>
                             </CardContent>
                         </Card>
@@ -135,14 +135,14 @@ export default function HomePage() {
                 </div>
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                      {aiFeatures.map((feature) => (
-                        <Card key={feature.title} className="text-center hover:shadow-lg transition-shadow">
+                        <Card key={feature.title} className="text-center flex flex-col hover:shadow-lg transition-shadow">
                         <CardHeader>
                             <div className="mx-auto bg-primary/10 p-3 rounded-full w-fit mb-4">
                                 {feature.icon}
                             </div>
                             <CardTitle className="font-headline">{feature.title}</CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="flex-grow">
                             <p className="text-muted-foreground">{feature.description}</p>
                         </CardContent>
                         </Card>
