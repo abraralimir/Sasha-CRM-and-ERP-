@@ -1,4 +1,5 @@
 import {initializeApp, getApp, getApps} from 'firebase/app';
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   projectId: "sasha-ai-crm",
@@ -12,5 +13,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-export {app};
+export {app, db};
