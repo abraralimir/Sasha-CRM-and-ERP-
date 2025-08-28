@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function LoginPage() {
     const auth = getAuth();
@@ -23,6 +24,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [pageLoading, setPageLoading] = useState(false);
 
     useEffect(() => {
         if (!loading && user) {
@@ -31,6 +33,7 @@ export default function LoginPage() {
     }, [user, loading, router]);
 
     const handleGoogleLogin = async () => {
+        setPageLoading(true);
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
@@ -43,12 +46,15 @@ export default function LoginPage() {
                 title: "Login Error",
                 description: "Failed to sign in with Google. Please try again.",
             });
+        } finally {
+            setPageLoading(false);
         }
     };
 
     const handleEmailPasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+        setPageLoading(true);
         try {
             if (isSignUp) {
                 await createUserWithEmailAndPassword(auth, email, password);
@@ -64,11 +70,17 @@ export default function LoginPage() {
                 title: isSignUp ? "Sign Up Error" : "Login Error",
                 description: error.message,
             });
+        } finally {
+            setPageLoading(false);
         }
     };
 
-    if(loading || user) {
-        return null;
+    if (loading || user) {
+        return (
+            <div className="flex min-h-screen items-center justify-center bg-background p-4">
+                <Spinner size="large" />
+            </div>
+        )
     }
 
     return (
@@ -104,13 +116,13 @@ export default function LoginPage() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-                        <Button type="submit" className="w-full">
-                            {isSignUp ? 'Sign Up' : 'Sign In'}
+                        <Button type="submit" className="w-full" disabled={pageLoading}>
+                            {pageLoading ? <Spinner size="small" color="white" /> : (isSignUp ? 'Sign Up' : 'Sign In')}
                         </Button>
                     </form>
                     <Separator className="my-6" />
-                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
-                        Sign In with Google
+                    <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={pageLoading}>
+                        {pageLoading ? <Spinner size="small" /> : 'Sign In with Google'}
                     </Button>
                 </CardContent>
                 <CardFooter className="justify-center">
@@ -121,7 +133,7 @@ export default function LoginPage() {
                         {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
                     </Button>
                 </CardFooter>
-            </Card>>
+            </Card>
         </div>
     );
 }
