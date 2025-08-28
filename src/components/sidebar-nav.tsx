@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Users,
   ChevronDown,
+  Shield,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -171,6 +172,15 @@ export function SidebarNav() {
                 </div>
             </CollapsibleContent>
         </Collapsible>
+      </SidebarMenuItem>
+
+      <SidebarMenuItem>
+        <Link href="/admin" passHref>
+          <SidebarMenuButton isActive={isActive('/admin')} tooltip={{ children: 'Admin' }}>
+            <Shield />
+            <span>Admin</span>
+          </SidebarMenuButton>
+        </Link>
       </SidebarMenuItem>
 
       <SidebarMenuItem className="mt-auto">
