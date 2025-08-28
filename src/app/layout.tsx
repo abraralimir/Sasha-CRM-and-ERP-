@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: 'AI-powered CRM for modern sales teams',
 };
 
+
 export default function RootLayout({
   children,
 }: Readonly<{

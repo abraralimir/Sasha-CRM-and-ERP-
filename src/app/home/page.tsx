@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { ArrowRight, BarChart2, Bot, Briefcase, Contact, FileText, LifeBuoy, Lightbulb, Target, TrendingUp, Users } from "lucide-react";
@@ -63,7 +64,7 @@ const aiFeatures = [
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col">
+    <>
         {/* Hero Section */}
         <section className="py-20 md:py-32 bg-secondary">
             <div className="container text-center">
@@ -150,6 +151,6 @@ export default function HomePage() {
                 </div>
             </div>
         </section>
-    </div>
+    </>
   );
 }
