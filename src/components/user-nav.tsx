@@ -17,12 +17,12 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   import { useAuth } from "@/lib/firebase/auth"
-  import { getAuth, signOut } from "firebase/auth";
+  import { auth } from "@/lib/firebase/client";
+  import { signOut } from "firebase/auth";
   import Link from "next/link";
   
   export function UserNav() {
     const { user } = useAuth();
-    const auth = getAuth();
 
     const handleLogout = () => {
         signOut(auth);

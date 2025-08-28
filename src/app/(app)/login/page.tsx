@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { AuthProvider, useAuth } from "@/lib/firebase/auth";
 import { useEffect, useState } from "react";
@@ -15,10 +15,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase/client";
+import { db, auth } from "@/lib/firebase/client";
 
 function LoginPageContent() {
-    const auth = getAuth();
     const router = useRouter();
     const { user, loading } = useAuth();
     const { toast } = useToast();
@@ -26,7 +25,6 @@ function LoginPageContent() {
     const [isSignUp, setIsSignUp] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
     const [pageLoading, setPageLoading] = useState(false);
 
     useEffect(() => {
@@ -44,6 +42,7 @@ function LoginPageContent() {
                 await setDoc(userRef, {
                     email: user.email,
                     role: 'user', // Default role
+                    createdAt: new Date(),
                 });
             }
         }
@@ -58,7 +57,6 @@ function LoginPageContent() {
             router.push('/dashboard');
         } catch (error) {
             console.error("Error signing in with Google: ", error);
-            setError("Failed to sign in with Google. Please try again.");
             toast({
                 variant: "destructive",
                 title: "Login Error",
@@ -71,7 +69,6 @@ function LoginPageContent() {
 
     const handleEmailPasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
         setPageLoading(true);
         try {
             let result;
@@ -84,7 +81,6 @@ function LoginPageContent() {
             router.push('/dashboard');
         } catch (error: any) {
             console.error(`Error with ${isSignUp ? 'sign up' : 'sign in'}:`, error);
-            setError(error.message);
             toast({
                 variant: "destructive",
                 title: isSignUp ? "Sign Up Error" : "Login Error",
@@ -105,7 +101,7 @@ function LoginPageContent() {
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-background p-4">
-            <Card className="w-full max-w-md">
+            <Card className="w-full max-w-md shadow-2xl">
                 <CardHeader className="text-center">
                     <div className="flex justify-center mb-4">
                         <Logo />
@@ -141,7 +137,7 @@ function LoginPageContent() {
                         </Button>
                     </form>
                     <Separator className="my-6" />
-                    <Button variant="outline" className="w-full mb-2" onClick={handleGoogleLogin} disabled={pageLoading}>
+                     <Button variant="outline" className="w-full mb-4" onClick={handleGoogleLogin} disabled={pageLoading}>
                         {pageLoading ? <Spinner size="small" /> : 'Sign In with Google'}
                     </Button>
                     <Button variant="secondary" className="w-full" asChild>
@@ -149,10 +145,7 @@ function LoginPageContent() {
                     </Button>
                 </CardContent>
                 <CardFooter className="justify-center">
-                     <Button variant="link" onClick={() => {
-                         setIsSignUp(!isSignUp);
-                         setError(null);
-                        }}>
+                     <Button variant="link" onClick={() => setIsSignUp(!isSignUp)}>
                         {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
                     </Button>
                 </CardFooter>
