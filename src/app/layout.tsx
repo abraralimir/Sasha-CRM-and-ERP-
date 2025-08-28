@@ -16,8 +16,34 @@ const fontHeadline = Space_Grotesk({
 
 
 export const metadata: Metadata = {
-  title: 'Sasha AI CRM',
-  description: 'AI-powered CRM for modern sales teams',
+  title: {
+    default: 'Sasha AI CRM | Intelligent Business Management',
+    template: '%s | Sasha AI CRM',
+  },
+  description: 'Sasha AI CRM combines a full-featured CRM, ERP, and POS solution with powerful AI assistants to help you close more deals, optimize operations, and grow your business faster. Manage contacts, leads, sales, and more, all powered by next-generation artificial intelligence.',
+  keywords: ['CRM', 'ERP', 'POS', 'AI CRM', 'Sales Automation', 'Business Management', 'AI Assistant', 'Sales Prediction', 'Sasha AI'],
+  openGraph: {
+    title: 'Sasha AI CRM | Intelligent Business Management',
+    description: 'The future of customer relationships and business operations, powered by AI.',
+    url: 'https://sasha-ai-crm.vercel.app', // Replace with your actual domain
+    siteName: 'Sasha AI CRM',
+    images: [
+      {
+        url: 'https://picsum.photos/1200/630', // Replace with a branded OG image
+        width: 1200,
+        height: 630,
+        alt: 'Sasha AI CRM Dashboard',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+   twitter: {
+    card: 'summary_large_image',
+    title: 'Sasha AI CRM | Intelligent Business Management',
+    description: 'The future of customer relationships and business operations, powered by AI.',
+    images: ['https://picsum.photos/1200/630'], // Replace with a branded Twitter card image
+  },
 };
 
 

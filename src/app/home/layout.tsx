@@ -1,6 +1,8 @@
 
+
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 
 
@@ -33,6 +35,9 @@ export default function HomeLayout({
             <p className="text-balance text-center text-sm leading-loose text-muted-foreground md:text-left">
             Built by Sasha AI. The future of intelligent business management.
             </p>
+            <div className="flex items-center gap-2">
+                <ThemeToggle />
+            </div>
         </div>
       </footer>
     </div>

@@ -1,9 +1,18 @@
 
+'use client';
+
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowRight, BarChart2, Bot, Briefcase, Contact, FileText, LifeBuoy, Lightbulb, Target, TrendingUp, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useFormState, useFormStatus } from 'react-dom';
+import { handleContactForm, ContactFormState } from './actions';
+import { useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const crmFeatures = [
     {
@@ -61,8 +70,31 @@ const aiFeatures = [
       },
 ];
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending} className="w-full">
+      {pending ? 'Sending...' : 'Send Message'}
+    </Button>
+  );
+}
+
 
 export default function HomePage() {
+   const initialState: ContactFormState = { message: '', success: false };
+   const [state, formAction] = useFormState(handleContactForm, initialState);
+   const { toast } = useToast();
+
+   useEffect(() => {
+    if (state.message) {
+      toast({
+        title: state.success ? 'Success!' : 'Error',
+        description: state.message,
+        variant: state.success ? 'default' : 'destructive',
+      });
+    }
+  }, [state, toast]);
+
   return (
     <>
         {/* Hero Section */}
@@ -148,6 +180,49 @@ export default function HomePage() {
                         </CardContent>
                         </Card>
                     ))}
+                </div>
+            </div>
+        </section>
+
+        {/* Contact Us Section */}
+        <section className="py-16 md:py-24">
+            <div className="container">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 className="text-3xl md:text-4xl font-bold font-headline">Get in Touch</h2>
+                        <p className="text-lg text-muted-foreground mt-2 mb-8">
+                            Have a question or want to learn more about Sasha AI? Fill out the form and we'll get back to you as soon as possible.
+                        </p>
+                    </div>
+                    <Card>
+                        <form action={formAction}>
+                            <CardHeader>
+                                <CardTitle>Contact Us</CardTitle>
+                                <CardDescription>Let us know how we can help.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">Name</Label>
+                                    <Input id="name" name="name" placeholder="John Doe" required />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="email">Email</Label>
+                                    <Input id="email" name="email" type="email" placeholder="john@example.com" required />
+                                </div>
+                                 <div className="space-y-2">
+                                    <Label htmlFor="phone">Phone (Optional)</Label>
+                                    <Input id="phone" name="phone" type="tel" placeholder="+1 (555) 123-4567" />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="description">Message</Label>
+                                    <Textarea id="description" name="description" placeholder="How can we help you?" required />
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <SubmitButton />
+                            </CardFooter>
+                        </form>
+                    </Card>
                 </div>
             </div>
         </section>
