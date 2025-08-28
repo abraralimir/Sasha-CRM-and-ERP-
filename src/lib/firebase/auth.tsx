@@ -4,6 +4,7 @@ import {createContext, useContext, useEffect, useState} from 'react';
 import {getAuth, onAuthStateChanged, User} from 'firebase/auth';
 import {app} from './client';
 import { Spinner } from '@/components/ui/spinner';
+import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext<{user: User | null; loading: boolean;}>({user: null, loading: true});
 
@@ -32,7 +33,7 @@ export function AuthGuard({children}: {children: React.ReactNode}) {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push('/login');
+            router.replace('/login');
         }
     }, [user, loading, router]);
 
