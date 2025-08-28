@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Logo } from "@/components/logo";
@@ -5,12 +6,37 @@ import { SidebarNav } from "@/components/sidebar-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { UserNav } from "@/components/user-nav";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { useAuth } from "@/lib/firebase/auth";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <Spinner size="large" />
+        </div>
+    )
+  }
+
+  if (!user) {
+      return null;
+  }
+
   return (
     <SidebarProvider>
       <Sidebar>
