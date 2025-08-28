@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormState, useFormStatus } from 'react-dom';
@@ -28,6 +29,19 @@ function SubmitButton() {
     </Button>
   );
 }
+
+const sampleHistoricalData = JSON.stringify([
+    { "month": "Jan", "revenue": 150000, "deals": 30 },
+    { "month": "Feb", "revenue": 165000, "deals": 35 },
+    { "month": "Mar", "revenue": 180000, "deals": 40 },
+    { "month": "Apr", "revenue": 175000, "deals": 38 },
+    { "month": "May", "revenue": 190000, "deals": 42 },
+    { "month": "Jun", "revenue": 210000, "deals": 45 }
+], null, 2);
+
+const sampleMarketTrends = "Increased demand for cloud migration services. Growing interest in AI-powered cybersecurity solutions. Shift towards remote work driving need for robust collaboration tools.";
+const sampleSalesStrategy = "Aggressive outbound campaign targeting mid-size tech companies. Focus on upselling cloud services to existing client base. Offering bundled packages for cybersecurity and data analytics.";
+
 
 export default function SalesPage() {
   const initialState: FormState = { message: '' };
@@ -68,8 +82,9 @@ export default function SalesPage() {
                   id="historicalSalesData"
                   name="historicalSalesData"
                   placeholder="e.g., CSV or JSON data of past sales."
-                  rows={5}
+                  rows={8}
                   required
+                  defaultValue={sampleHistoricalData}
                 />
               </div>
               <div className="space-y-2">
@@ -78,8 +93,9 @@ export default function SalesPage() {
                   id="marketTrends"
                   name="marketTrends"
                   placeholder="e.g., 'Growing interest in sustainable products.'"
-                  rows={3}
+                  rows={4}
                   required
+                  defaultValue={sampleMarketTrends}
                 />
               </div>
               <div className="space-y-2">
@@ -88,8 +104,9 @@ export default function SalesPage() {
                   id="salesStrategy"
                   name="salesStrategy"
                   placeholder="e.g., 'Focus on upselling to existing customers.'"
-                  rows={3}
+                  rows={4}
                   required
+                  defaultValue={sampleSalesStrategy}
                 />
               </div>
               <div className="space-y-2">
@@ -99,6 +116,7 @@ export default function SalesPage() {
                   name="forecastHorizon"
                   placeholder="e.g., 'Next Quarter' or 'Next 6 months'"
                   required
+                  defaultValue="Next Quarter"
                 />
               </div>
             </CardContent>
