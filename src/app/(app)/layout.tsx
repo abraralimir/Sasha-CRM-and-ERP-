@@ -13,28 +13,26 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-        <AuthGuard>
-            <SidebarProvider>
-            <Sidebar>
-                <div className="flex flex-col h-full">
-                <SidebarHeader>
-                    <Logo />
-                </SidebarHeader>
-                <SidebarContent>
-                    <SidebarNav />
-                </SidebarContent>
-                <SidebarFooter className="flex items-center justify-between p-2">
-                    <UserNav />
-                    <ThemeToggle />
-                </SidebarFooter>
-                </div>
-            </Sidebar>
-            <SidebarInset>
-                {children}
-            </SidebarInset>
-            </SidebarProvider>
-        </AuthGuard>
-    </AuthProvider>
+    <SidebarProvider>
+      <Sidebar>
+          <div className="flex flex-col h-full">
+          <SidebarHeader>
+              <Logo />
+          </SidebarHeader>
+          <SidebarContent>
+              <SidebarNav />
+          </SidebarContent>
+          <SidebarFooter className="flex items-center justify-between p-2">
+              <UserNav />
+              <ThemeToggle />
+          </SidebarFooter>
+          </div>
+      </Sidebar>
+      <SidebarInset>
+          <AuthGuard>
+            {children}
+          </AuthGuard>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
