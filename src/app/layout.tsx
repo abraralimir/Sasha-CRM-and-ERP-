@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import {Toaster} from '@/components/ui/toaster';
 import {ThemeProvider} from '@/components/theme-provider';
+import { AuthProvider } from '@/lib/firebase/auth';
 
 export const metadata: Metadata = {
   title: 'Sasha AI CRM',
@@ -25,7 +26,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
           <Toaster />
         </ThemeProvider>
       </body>

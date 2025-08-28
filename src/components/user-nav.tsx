@@ -1,3 +1,6 @@
+
+'use client';
+
 import {
     Avatar,
     AvatarFallback,
@@ -13,25 +16,42 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-  import { ThemeToggle } from "./theme-toggle"
+  import { useAuth } from "@/lib/firebase/auth"
+  import { getAuth, signOut } from "firebase/auth";
+  import Link from "next/link";
   
   export function UserNav() {
+    const { user } = useAuth();
+    const auth = getAuth();
+
+    const handleLogout = () => {
+        signOut(auth);
+    }
+
+    if (!user) {
+        return (
+            <Button asChild>
+                <Link href="/login">Log In</Link>
+            </Button>
+        )
+    }
+    
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://picsum.photos/32/32" alt="@user" data-ai-hint="avatar" />
-              <AvatarFallback>SA</AvatarFallback>
+              <AvatarImage src={user.photoURL ?? "https://picsum.photos/32/32"} alt={user.displayName ?? ""} data-ai-hint="avatar" />
+              <AvatarFallback>{user.displayName?.charAt(0) ?? user.email?.charAt(0)}</AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">Sales Agent</p>
+              <p className="text-sm font-medium leading-none">{user.displayName ?? 'Sales Agent'}</p>
               <p className="text-xs leading-none text-muted-foreground">
-                agent@sasha.ai
+                {user.email}
               </p>
             </div>
           </DropdownMenuLabel>
@@ -48,7 +68,7 @@ import {
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>
             Log out
           </DropdownMenuItem>
         </DropdownMenuContent>
