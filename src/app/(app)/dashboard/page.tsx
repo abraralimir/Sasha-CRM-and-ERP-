@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Lightbulb, TrendingUp, BotMessageSquare, FileText, ArrowRight, Users, Briefcase, Target, LifeBuoy, BarChart2, Settings } from "lucide-react";
+import { Lightbulb, TrendingUp, BotMessageSquare, FileText, ArrowRight, Users, Briefcase, Target, LifeBuoy, BarChart2, Settings, Contact } from "lucide-react";
 import Link from "next/link";
 
 const features = [
@@ -9,6 +9,12 @@ const features = [
     title: "Contacts",
     description: "Manage your customers, leads, and vendors in one place.",
     href: "/contacts",
+    icon: <Contact className="w-8 h-8 text-primary" />,
+  },
+   {
+    title: "Leads",
+    description: "Capture, track, and prioritize potential new customers.",
+    href: "/leads",
     icon: <Users className="w-8 h-8 text-primary" />,
   },
   {
@@ -16,6 +22,12 @@ const features = [
     description: "Track sales deals and manage your pipeline from prospect to close.",
     href: "/opportunities",
     icon: <Briefcase className="w-8 h-8 text-primary" />,
+  },
+  {
+    title: "Accounts",
+    description: "Manage the companies and organizations you do business with.",
+    href: "/accounts",
+    icon: <Users className="w-8 h-8 text-primary" />,
   },
   {
     title: "Marketing Campaigns",
@@ -28,6 +40,12 @@ const features = [
     description: "Provide excellent customer service by managing support requests.",
     href: "/support",
     icon: <LifeBuoy className="w-8 h-8 text-primary" />,
+  },
+  {
+    title: "Reports & Analytics",
+    description: "Gain insights into your business with customizable reports.",
+    href: "/reports",
+    icon: <BarChart2 className="w-8 h-8 text-primary" />,
   },
    {
     title: "AI Task Allocation",
@@ -52,6 +70,12 @@ const features = [
     description: "Extract key information and insights from your business documents.",
     href: "/documents",
     icon: <FileText className="w-8 h-8 text-primary" />,
+  },
+   {
+    title: "Settings",
+    description: "Customize your CRM, manage users, and configure integrations.",
+    href: "/settings",
+    icon: <Settings className="w-8 h-8 text-primary" />,
   },
 ];
 
@@ -80,7 +104,7 @@ export default function DashboardPage() {
               <CardFooter className="mt-auto">
                 <Button asChild variant="secondary" className="w-full">
                   <Link href={feature.href}>
-                    View {feature.title} <ArrowRight className="ml-2 h-4 w-4" />
+                    View Feature <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
               </CardFooter>

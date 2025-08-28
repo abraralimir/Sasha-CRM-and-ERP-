@@ -116,6 +116,18 @@ export function SidebarNav() {
         </SidebarMenuItem>
       </SidebarGroup>
 
+      <SidebarGroup>
+        <SidebarGroupLabel>Analytics</SidebarGroupLabel>
+         <SidebarMenuItem>
+            <Link href="/reports" passHref>
+                <SidebarMenuButton isActive={isActive('/reports')} tooltip={{children: "Reports"}}>
+                    <BarChart2/>
+                    <span>Reports</span>
+                </SidebarMenuButton>
+            </Link>
+        </SidebarMenuItem>
+      </SidebarGroup>
+
       <SidebarMenuItem>
         <Collapsible>
             <CollapsibleTrigger asChild>
