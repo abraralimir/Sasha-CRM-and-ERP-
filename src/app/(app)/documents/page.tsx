@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { handleDocumentAnalysis, FormState } from './actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { FileText, Sparkles, Upload } from 'lucide-react';
@@ -31,7 +31,7 @@ function SubmitButton() {
 
 export default function DocumentsPage() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(handleDocumentAnalysis, initialState);
+  const [state, formAction] = useActionState(handleDocumentAnalysis, initialState);
   const { toast } = useToast();
   const [dataUri, setDataUri] = useState('');
   const [fileName, setFileName] = useState('');

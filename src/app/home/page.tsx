@@ -6,9 +6,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { ArrowRight, BarChart2, Bot, Briefcase, Contact, FileText, LifeBuoy, Lightbulb, Target, TrendingUp, Users } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { handleContactForm, ContactFormState } from './actions';
-import { useEffect } from 'react';
+import { useEffect, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -82,7 +82,7 @@ function SubmitButton() {
 
 export default function HomePage() {
    const initialState: ContactFormState = { message: '', success: false };
-   const [state, formAction] = useFormState(handleContactForm, initialState);
+   const [state, formAction] = useActionState(handleContactForm, initialState);
    const { toast } = useToast();
 
    useEffect(() => {

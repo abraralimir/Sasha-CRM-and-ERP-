@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { handleSalesPrediction, FormState } from './actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useEffect } from 'react';
+import { useEffect, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { TrendingUp, FileText, Lightbulb, BarChart } from 'lucide-react';
@@ -45,7 +45,7 @@ const sampleSalesStrategy = "Aggressive outbound campaign targeting mid-size tec
 
 export default function SalesPage() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(handleSalesPrediction, initialState);
+  const [state, formAction] = useActionState(handleSalesPrediction, initialState);
   const { toast } = useToast();
 
   useEffect(() => {

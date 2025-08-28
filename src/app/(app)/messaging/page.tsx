@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { handleGenerateReply, FormState } from './actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BotMessageSquare, Sparkles } from 'lucide-react';
@@ -37,7 +37,7 @@ function SubmitButton() {
 
 export default function MessagingPage() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(handleGenerateReply, initialState);
+  const [state, formAction] = useActionState(handleGenerateReply, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 

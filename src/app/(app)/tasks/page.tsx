@@ -1,6 +1,6 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { handleTaskAllocation, FormState } from './actions';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useEffect } from 'react';
+import { useEffect, useActionState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, UserCheck } from 'lucide-react';
@@ -38,7 +38,7 @@ function SubmitButton() {
 
 export default function TasksPage() {
   const initialState: FormState = { message: '' };
-  const [state, formAction] = useFormState(handleTaskAllocation, initialState);
+  const [state, formAction] = useActionState(handleTaskAllocation, initialState);
   const { toast } = useToast();
 
   useEffect(() => {
